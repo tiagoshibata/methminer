@@ -17,9 +17,6 @@ set(EXECUTABLE methminer)
 file(GLOB HEADERS "*.h")
 
 add_executable(${EXECUTABLE} ${SRC_LIST} ${HEADERS})
-if(MSVC)
-	target_sources(${EXECUTABLE} PRIVATE methminer.rc)
-endif()
 
 hunter_add_package(Boost COMPONENTS program_options)
 find_package(Boost CONFIG REQUIRED COMPONENTS program_options)
