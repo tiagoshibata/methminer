@@ -4,7 +4,7 @@ commands:
   restore_cache_cmd:
     steps:
       - restore_cache:
-          key: nsfminer-{{ .Environment.CACHE_VERSION }}
+          key: methminer-{{ .Environment.CACHE_VERSION }}
 
 
   save_cache_cmd:
@@ -12,7 +12,7 @@ commands:
       - save_cache:
           paths:
             - ~/.hunter
-          key: nsfminer-{{ .Environment.CACHE_VERSION }}
+          key: methminer-{{ .Environment.CACHE_VERSION }}
 
   build:
     steps:
@@ -27,12 +27,12 @@ commands:
       - run: cmake --build build -- -j`nproc`
       - save_cache_cmd
       - store_artifacts:
-          path: build/nsfminer/nsfminer
-          destination: nsfminer
+          path: build/methminer/methminer
+          destination: methminer
           
   test:
     steps:
-      - run: ./build/nsfminer/nsfminer --version
+      - run: ./build/methminer/methminer --version
 
 executors:
  docker-executor-u20n11:
