@@ -7,20 +7,20 @@
 
 **methminer** is an Ethash GPU mining application: with methminer you can mine every coin which relies on an Ethash Proof of Work.
 
-This is a direct descendent of the Ethminer project at https://github.com/ethereum-mining/ethminer. Since that project
-is largely abandoned and unmanaged this personal version is published with the hope that it may continue to be useful. In the spirit
-of open source problem reports and pull requests are welcome, but please use git-clang-format on your requests.
+This is a direct descendent of the nsfminer project at https://github.com/no-fee-ethereum-mining/nsfminer, forked after its author
+decided to stop maintaining it. In the spirit of open source problem reports and pull requests are welcome, but please use
+git-clang-format on your requests.
 
-**Project Owner & Developer** @jean-m-cyr
+**Project Owner & Developer** @tiagoshibata
 
 ## Features
 
 * OpenCL mining
-* Nvidia CUDA mining
-* realistic benchmarking
-* stratum mining without proxy
+* NVIDIA CUDA mining
+* Realistic benchmarking
+* Stratum mining without proxy
 * Automatic devices configuration
-* farm failover
+* Farm failover
 
 ## Table of Contents
 
