@@ -52,7 +52,7 @@ Check our [samples](docs/POOL_EXAMPLES_ETH.md) to see how to connect to differen
 
 ### Master branch build status
 
-[![CircleCI](https://circleci.com/gh/tiagoshibata/methminer.svg?style=svg)](https://circleci.com/gh/no-fee-ethereum-mining/methminer)
+[![CircleCI](https://circleci.com/gh/tiagoshibata/methminer.svg?style=svg)](https://circleci.com/gh/no-fee-ethereum-mining/methminer) [![Join the chat at https://gitter.im/methminer/community](https://badges.gitter.im/methminer/community.svg)](https://gitter.im/methminer/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Building from source
 
