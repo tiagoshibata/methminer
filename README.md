@@ -72,4 +72,4 @@ To meet the community, ask general questions and chat about the miner join [the 
 
 Licensed under the [GNU General Public License, Version 3](LICENSE).
 
-[Gitter]: https://gitter.im/tiagoshibata/methminer
+[Gitter]: https://gitter.im/methminer
