@@ -73,11 +73,11 @@ static void headers(vector<string>& h, bool color) {
 
     auto* bi = methminer_get_buildinfo();
     stringstream ss;
-    ss << yellow << "methminer " << bi->project_version << " (No stinkin' fees edition)";
+    ss << yellow << "methminer " << bi->project_version;
     h.push_back(ss.str());
 
     ss.str("");
-    ss << white << "Copyright 2021 Jean M. Cyr, Licensed under the terms";
+    ss << white << "Copyright 2021 Tiago Shibata, Licensed under the terms";
     h.push_back(ss.str());
 
     ss.str("");
@@ -1126,21 +1126,6 @@ int main(int argc, char** argv) {
     // 4 - Unknown exception
 
     dev::setThreadName("miner");
-
-#if defined(_WIN32)
-    // Need to change the code page from the default OEM code page (437) so that
-    // UTF-8 characters are displayed correctly in the console
-    SetConsoleOutputCP(CP_UTF8);
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hOut != INVALID_HANDLE_VALUE) {
-        DWORD dwMode;
-        if (GetConsoleMode(hOut, &dwMode))
-            SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
-    }
-
-    // prevent system sleep
-    SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
-#endif
 
     if (argc < 2) {
         cout << "No arguments specified.";
