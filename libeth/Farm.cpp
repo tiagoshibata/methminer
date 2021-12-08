@@ -291,13 +291,7 @@ void Farm::restart_async() { g_io_service.post(m_io_strand.wrap(boost::bind(&Far
  * @return false if no matching file was found
  */
 bool Farm::reboot(const vector<string>& args) {
-#if defined(_WIN32)
-    const char* filename = "reboot.bat";
-#else
-    const char* filename = "reboot.sh";
-#endif
-
-    return spawn_file_in_bin_dir(filename, args);
+    return spawn_file_in_bin_dir("reboot.sh", args);
 }
 
 /**

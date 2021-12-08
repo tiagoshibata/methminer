@@ -16,13 +16,7 @@ extern "C" {
 typedef enum wrap_adlReturn_enum { WRAPADL_OK = 0 } wrap_adlReturn_t;
 
 // Some ADL defines and structs from adl sdk
-#if defined(__MSC_VER)
-#define ADL_API_CALL __cdecl
-#elif defined(_WIN32)
-#define ADL_API_CALL __stdcall
-#else
 #define ADL_API_CALL
-#endif
 
 typedef void*(ADL_API_CALL* ADL_MAIN_MALLOC_CALLBACK)(int);
 /// \brief Handle to ADL client context.
@@ -59,22 +53,6 @@ typedef struct AdapterInfo {
     /// display name such as \\.\Display1 can be found from OS
     int iPresent;
     // @}
-
-#if defined(_WIN32)
-    /// \WIN_STRUCT_MEM
-
-    /// Exist or not; 1 is exist and 0 is not present.
-    int iExist;
-    /// Driver registry path.
-    char strDriverPath[ADL_MAX_PATH];
-    /// Driver registry path Ext for.
-    char strDriverPathExt[ADL_MAX_PATH];
-    /// PNP string from Windows.
-    char strPNPString[ADL_MAX_PATH];
-    /// It is generated from EnumDisplayDevices.
-    int iOSDisplayIndex;
-    // @}
-#endif /* (_WIN32) */
 
 #if defined(LINUX)
     /// \LNX_STRUCT_MEM

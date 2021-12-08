@@ -130,25 +130,14 @@ DEV_INLINE uint64_t cuda_swab64(const uint64_t x) {
                 (((uint64_t)(x)&0x000000000000ff00ULL) << 40) | (((uint64_t)(x)&0x00000000000000ffULL) << 56)))
 #endif
 
-#ifdef _WIN64
-#define USE_XOR_ASM_OPTS 0
-#else
-#define USE_XOR_ASM_OPTS 1
-#endif
-
-#if USE_XOR_ASM_OPTS
 // device asm for whirpool
 DEV_INLINE uint64_t xor1(const uint64_t a, const uint64_t b) {
     uint64_t result;
     asm("xor.b64 %0, %1, %2;" : "=l"(result) : "l"(a), "l"(b));
     return result;
 }
-#else
-#define xor1(a, b) (a ^ b)
-#endif
 
 /*
-#if USE_XOR_ASM_OPTS
 // device asm for whirpool
 DEV_INLINE
 uint64_t xor3(const uint64_t a, const uint64_t b, const uint64_t c)
@@ -160,12 +149,8 @@ uint64_t xor3(const uint64_t a, const uint64_t b, const uint64_t c)
         : "=l"(result) : "l"(a), "l"(b), "l"(c));
     return result;
 }
-#else
-#define xor3(a,b,c) (a ^ b ^ c)
-#endif
 */
 
-#if USE_XOR_ASM_OPTS
 // device asm for whirpool
 DEV_INLINE uint64_t xor8(const uint64_t a, const uint64_t b, const uint64_t c, const uint64_t d, const uint64_t e,
                          const uint64_t f, const uint64_t g, const uint64_t h) {
@@ -179,9 +164,6 @@ DEV_INLINE uint64_t xor8(const uint64_t a, const uint64_t b, const uint64_t c, c
     asm("xor.b64 %0, %0, %1;" : "+l"(result) : "l"(a));
     return result;
 }
-#else
-#define xor8(a, b, c, d, e, f, g, h) ((a ^ b) ^ (c ^ d) ^ (e ^ f) ^ (g ^ h))
-#endif
 
 // device asm for x17
 DEV_INLINE uint64_t xandx(const uint64_t a, const uint64_t b, const uint64_t c) {

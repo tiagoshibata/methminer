@@ -26,14 +26,8 @@ wrap_nvml_handle* wrap_nvml_create() {
      * deep scouring of the filesystem on one of the Mac CUDA build boxes
      * I used turned up nothing, so for now it's not going to work on OSX.
      */
-#if defined(_WIN32)
 
-/* Windows */
-#define libnvidia_ml1 "nvml.dll"
-#define libnvidia_ml2 "%WINDIR%/system32/nvml.dll"
-#define libnvidia_ml3 "%PROGRAMFILES%/NVIDIA Corporation/NVSMI/nvml.dll"
-
-#elif defined(__linux)
+#if defined(__linux)
 
 /* In rpm based linux distributions link name is with extension .1 */
 /* 32-bit linux assumed */
@@ -49,21 +43,7 @@ wrap_nvml_handle* wrap_nvml_create() {
 
     void* nvml_dll = nullptr;
 
-#ifdef _WIN32
-    char tmp[512];
-    ExpandEnvironmentStringsA(libnvidia_ml1, tmp, sizeof(tmp));
-    nvml_dll = wrap_dlopen(tmp);
-    if (nvml_dll == nullptr) {
-        ExpandEnvironmentStringsA(libnvidia_ml2, tmp, sizeof(tmp));
-        nvml_dll = wrap_dlopen(tmp);
-        if (nvml_dll == nullptr) {
-            ExpandEnvironmentStringsA(libnvidia_ml3, tmp, sizeof(tmp));
-            nvml_dll = wrap_dlopen(tmp);
-        }
-    }
-#else
     nvml_dll = wrap_dlopen(libnvidia_ml);
-#endif
     if (!nvml_dll) {
         cwarn << "Failed to load NVML library";
         cwarn << "NVIDIA hardware monitoring disabled";

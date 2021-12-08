@@ -139,9 +139,6 @@ static void on_help_module(string m) {
 #if API_CORE
             "api",
 #endif
-#ifdef _WIN32
-            "env",
-#endif
             "con", "test", "misc", "test", "conf", "reboot"
     });
     if (find(modules.begin(), modules.end(), m) != modules.end())
@@ -367,9 +364,6 @@ class MinerCLI {
                 "api, "
 #endif
                 "misc, "
-#ifdef _WIN32
-                "env, "
-#endif
                 "con, test, conf or reboot")
 
             ("version,V",
@@ -737,15 +731,6 @@ class MinerCLI {
                      << "    stratums://0x2ceCE0...b3caa0F6e86.rig0@eth-us-east.flexpool.io:5555\n"
                      << "    stratums://0x2ceCE0...b3caa0F6e86.rig0@eth-us-west.flexpool.io:5555\n"
                      << "  -v 7 --display-interval 15\n\n";
-#ifdef _WIN32
-            else if (s == "env")
-                cout << "\nEnvironment variables :\n\n"
-                     << "    If you need or do feel more comfortable you can set the following\n"
-                     << "    environment variables. Please respect letter casing.\n\n"
-                     << "    SSL_CERT_FILE  Set to the full path to of your CA certificates\n"
-                     << "                   file if it is not in standard path :\n"
-                     << "                   /etc/ssl/certs/ca-certificates.crt.\n\n";
-#endif
             else if (s == "reboot")
                 cout << "\nMiner reboots:\n\n"
                      << "    The user may create a reboot script that will be invoked\n"

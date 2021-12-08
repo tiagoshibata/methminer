@@ -13,19 +13,7 @@
 
 #include <ethash/ethash.hpp>
 
-#if _WIN32
-
-#include <stdlib.h>
-
-#define bswap32 _byteswap_ulong
-#define bswap64 _byteswap_uint64
-
-// On Windows assume little endian.
-#define __LITTLE_ENDIAN 1234
-#define __BIG_ENDIAN 4321
-#define __BYTE_ORDER __LITTLE_ENDIAN
-
-#elif __APPLE__
+#if __APPLE__
 
 #include <machine/endian.h>
 

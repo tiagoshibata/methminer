@@ -4,11 +4,8 @@
 
 cmake_minimum_required(VERSION 3.13.4)
 
-if(NOT WIN32)
-    # Outside of Windows build only Release packages.
-    set(HUNTER_CONFIGURATION_TYPES Release
-        CACHE STRING "Build type of the Hunter packages")
-endif()
+set(HUNTER_CONFIGURATION_TYPES Release
+    CACHE STRING "Build type of the Hunter packages")
 
 HunterGate(
     URL "https://github.com/cpp-pm/hunter/archive/v0.23.300.tar.gz"

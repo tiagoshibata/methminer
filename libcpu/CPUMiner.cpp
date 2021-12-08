@@ -30,11 +30,7 @@
 #include "CPUMiner.h"
 
 /* Sanity check for defined OS */
-#if defined(__linux__)
-/* linux */
-#elif defined(_WIN32)
-/* windows */
-#else
+#ifndef __linux__
 #error "Invalid OS configuration"
 #endif
 

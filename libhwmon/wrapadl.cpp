@@ -28,10 +28,7 @@ void* ADL_API_CALL ADL_Main_Memory_Alloc(int iSize) {
 wrap_adl_handle* wrap_adl_create() {
     wrap_adl_handle* adlh = nullptr;
 
-#if defined(_WIN32)
-    /* Windows */
-#define libatiadlxx "atiadlxx.dll"
-#elif defined(__linux) && (defined(__i386__) || defined(__ARM_ARCH_7A__))
+#if defined(__linux) && (defined(__i386__) || defined(__ARM_ARCH_7A__))
     /* 32-bit linux assumed */
 #define libatiadlxx "libatiadlxx.so"
 #elif defined(__linux)
@@ -42,12 +39,7 @@ wrap_adl_handle* wrap_adl_create() {
 #warning "Unrecognized platform: need ADL DLL path for this platform..."
     return nullptr;
 #endif
-#ifdef _WIN32
-    char tmp[512];
-    ExpandEnvironmentStringsA(libatiadlxx, tmp, sizeof(tmp));
-#else
     char tmp[512] = libatiadlxx;
-#endif
 
     void* adl_dll = wrap_dlopen(tmp);
     if (adl_dll == nullptr) {

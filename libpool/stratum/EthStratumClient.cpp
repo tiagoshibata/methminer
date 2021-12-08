@@ -13,11 +13,6 @@
 
 #include "EthStratumClient.h"
 
-#ifdef _WIN32
-// Needed for certificates validation on TLS connections
-#include <wincrypt.h>
-#endif
-
 using boost::asio::ip::tcp;
 
 EthStratumClient::EthStratumClient(int worktimeout, int responsetimeout)
@@ -48,27 +43,6 @@ void EthStratumClient::init_socket() {
         m_securesocket->set_verify_callback(
             make_verbose_verification(boost::asio::ssl::rfc2818_verification(m_conn->Host())));
 
-#ifdef _WIN32
-        HCERTSTORE hStore = CertOpenSystemStore(0, "ROOT");
-        if (hStore == nullptr) {
-            return;
-        }
-
-        X509_STORE* store = X509_STORE_new();
-        PCCERT_CONTEXT pContext = nullptr;
-        while ((pContext = CertEnumCertificatesInStore(hStore, pContext)) != nullptr) {
-            X509* x509 = d2i_X509(nullptr, (const unsigned char**)&pContext->pbCertEncoded, pContext->cbCertEncoded);
-            if (x509 != nullptr) {
-                X509_STORE_add_cert(store, x509);
-                X509_free(x509);
-            }
-        }
-
-        CertFreeCertificateContext(pContext);
-        CertCloseStore(hStore, 0);
-
-        SSL_CTX_set_cert_store(ctx.native_handle(), store);
-#else
         char* certPath = getenv("SSL_CERT_FILE");
         try {
             ctx.load_verify_file(certPath ? certPath : "/etc/ssl/certs/ca-certificates.crt");
@@ -79,7 +53,6 @@ void EthStratumClient::init_socket() {
                      "inaccessible file.";
             cwarn << "It is possible that certificate verification can fail.";
         }
-#endif
     } else {
         m_nonsecuresocket = make_shared<boost::asio::ip::tcp::socket>(m_io_service);
         m_socket = m_nonsecuresocket.get();
@@ -88,15 +61,9 @@ void EthStratumClient::init_socket() {
     // Activate keep alive to detect disconnects
     unsigned int keepAlive = 10000;
 
-#if defined(_WIN32)
-    int32_t timeout = keepAlive;
-    setsockopt(m_socket->native_handle(), SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
-    setsockopt(m_socket->native_handle(), SOL_SOCKET, SO_SNDTIMEO, (const char*)&timeout, sizeof(timeout));
-#else
     timeval tv{static_cast<suseconds_t>(keepAlive / 1000), static_cast<suseconds_t>(keepAlive % 1000)};
     setsockopt(m_socket->native_handle(), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
     setsockopt(m_socket->native_handle(), SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
-#endif
 }
 
 void EthStratumClient::connect() {
@@ -438,7 +405,6 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec) {
                 cwarn << "* Pool hostname you're connecting to does not match the CN registered "
                          "for the certificate.";
                 cwarn << "Possible fixes:";
-#ifndef _WIN32
                 cwarn << "* Make sure the file '/etc/ssl/certs/ca-certificates.crt' exists and "
                          "is accessible";
                 cwarn << "* Export the correct path via 'export "
@@ -447,7 +413,6 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec) {
                 cwarn << "  On most systems you can install the 'ca-certificates' package";
                 cwarn << "  You can also get the latest file here: "
                          "https://curl.haxx.se/docs/caextract.html";
-#endif
                 cwarn << "* Double check hostname in the -P argument.";
                 cwarn << "* Disable certificate verification all-together via environment "
                          "variable. See methminer --help for info about environment variables";
