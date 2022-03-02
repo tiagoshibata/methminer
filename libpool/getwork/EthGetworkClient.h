@@ -54,7 +54,7 @@ class EthGetworkClient : public PoolClient {
 
     std::atomic<bool> m_connecting = {false}; // Whether or not socket is on first try connect
     std::atomic<bool> m_txPending = {false};  // Whether or not an async socket operation is pending
-    boost::lockfree::queue<std::string*> m_txQueue;
+    boost::lockfree::queue<std::string*> m_txQueue{8};
 
     boost::asio::io_service::strand m_io_strand;
 
